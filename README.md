@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <br />
 <div align="center">
 <h3 align="center">PRAGMA POWER-UP</h3>
@@ -59,3 +60,7 @@ To get a local copy up and running follow these steps.
 ## Tests
 
 - Right-click the test folder and choose Run tests with coverage
+=======
+# powerup-microservice-user
+microservice-user
+>>>>>>> fa7c1ea49115e42905ef3389ca72d5e2a2136122
