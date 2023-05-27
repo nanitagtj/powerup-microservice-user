@@ -46,8 +46,9 @@ public class MainSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests(requests -> requests
-                        .requestMatchers("/auth/login", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/user/create", "/find/{id}").hasRole("ADMIN")
+                        .requestMatchers("/auth/login", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/user", "/user/client").permitAll()
+                        .requestMatchers("/user/owner", "/find/{id}").hasRole("ADMIN")
+                        .requestMatchers("/user/employee").hasRole("OWNER")
                         .anyRequest().authenticated()
                 )
                 .formLogin().disable()

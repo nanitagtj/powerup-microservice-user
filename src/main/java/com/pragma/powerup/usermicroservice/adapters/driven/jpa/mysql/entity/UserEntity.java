@@ -48,7 +48,6 @@ public class UserEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_role")
     private RoleEntity role;
-    @Past(message = "Birth date must be in the past")
     @Column(nullable = false)
     private LocalDate birthdate;
 }
