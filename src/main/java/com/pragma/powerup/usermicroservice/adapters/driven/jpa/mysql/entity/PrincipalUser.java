@@ -9,26 +9,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PrincipalUser implements UserDetails {
-    private String nombre;
-    private String nombreUsuario;
-    private String email;
+    private String mail;
+    private RoleEntity role;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public PrincipalUser(String nombre, String nombreUsuario, String email, String password,
-                         Collection<? extends GrantedAuthority> authorities) {
-        this.nombre = nombre;
-        this.nombreUsuario = nombreUsuario;
-        this.email = email;
+    public PrincipalUser(String mail, RoleEntity role, String password, Collection<? extends GrantedAuthority> authorities) {
+        this.mail = mail;
+        this.role = role;
         this.password = password;
         this.authorities = authorities;
     }
 
-    public static PrincipalUser build(UserEntity usuario, List<RoleEntity> roles) {
+    public static PrincipalUser build(UserEntity user, List<RoleEntity> roles) {
         List<GrantedAuthority> authorities = roles.stream()
                 .map(rol -> new SimpleGrantedAuthority(rol.getName())).collect(Collectors.toList());
-        return new PrincipalUser(usuario.getName(), usuario.getDniNumber(), usuario.getMail(),
-                usuario.getPassword(), authorities);
+        return new PrincipalUser(user.getMail(), user.getRole(),
+                user.getPassword(), authorities);
     }
 
     @Override
@@ -42,8 +39,7 @@ public class PrincipalUser implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return nombreUsuario;
+    public String getUsername() { return mail;
     }
 
     @Override
@@ -66,11 +62,11 @@ public class PrincipalUser implements UserDetails {
         return true;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getMail() {
+        return mail;
     }
 
-    public String getEmail() {
-        return email;
+    public RoleEntity getRole() {
+        return role;
     }
 }

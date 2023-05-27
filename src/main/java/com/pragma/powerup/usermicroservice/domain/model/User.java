@@ -1,29 +1,34 @@
 package com.pragma.powerup.usermicroservice.domain.model;
 
+import java.time.LocalDate;
+import java.util.Optional;
+
 public class User {
     private Long id;
     private String name;
     private String surname;
     private String mail;
     private String phone;
-    private String address;
-    private String idDniType;
     private String dniNumber;
-    private String idPersonType;
     private String password;
+    private Role role;
+    private LocalDate birthdate;
 
-    public User(Long id, String name, String surname, String mail, String phone, String address, String idDniType, String dniNumber, String idPersonType, String password) {
+    public User(Long id, String name, String surname, String mail, String phone, String dniNumber, String password, Role role, LocalDate birthdate) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.mail = mail;
         this.phone = phone;
-        this.address = address;
-        this.idDniType = idDniType;
         this.dniNumber = dniNumber;
-        this.idPersonType = idPersonType;
         this.password = password;
+        this.role = role;
+        this.birthdate = birthdate;
     }
+
+    public User() {
+    }
+
 
     public Long getId() {
         return id;
@@ -65,22 +70,6 @@ public class User {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getIdDniType() {
-        return idDniType;
-    }
-
-    public void setIdDniType(String idDniType) {
-        this.idDniType = idDniType;
-    }
-
     public String getDniNumber() {
         return dniNumber;
     }
@@ -89,19 +78,27 @@ public class User {
         this.dniNumber = dniNumber;
     }
 
-    public String getIdPersonType() {
-        return idPersonType;
-    }
-
-    public void setIdPersonType(String idPersonType) {
-        this.idPersonType = idPersonType;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public LocalDate getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
     }
 }

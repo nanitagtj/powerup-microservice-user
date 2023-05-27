@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 <br />
 <div align="center">
 <h3 align="center">PRAGMA POWER-UP</h3>
   <p align="center">
-    In this challenge you are going to design the backend of a system that centralizes the services and orders of a restaurant chain that has different branches in the city.
+    Welcome to my first HU. CREATE OWNER.
   </p>
 </div>
 
@@ -54,7 +53,7 @@ To get a local copy up and running follow these steps.
 ## Usage
 
 1. Right-click the class PowerUpApplication and choose Run
-2. Open [http://localhost:8090/swagger-ui/index.html](http://localhost:8090/swagger-ui/index.html) in your web browser
+2. Open [http://localhost:8001/swagger-ui/index.html](http://localhost:8090/swagger-ui/index.html) in your web browser
 
 <!-- ROADMAP -->
 ## Tests
@@ -63,4 +62,4 @@ To get a local copy up and running follow these steps.
 =======
 # powerup-microservice-user
 microservice-user
->>>>>>> fa7c1ea49115e42905ef3389ca72d5e2a2136122
+

@@ -22,4 +22,11 @@ public class RoleMysqlAdapter implements IRolePersistencePort {
         }
         return roleEntityMapper.toRoleList(roleEntityList);
     }
+
+    @Override
+    public Role getRoleById(Long id) {
+        RoleEntity roleEntity = roleRepository.findById(id)
+                .orElseThrow(() -> new NoDataFoundException());
+        return roleEntityMapper.roleEntityToRole(roleEntity);
+    }
 }

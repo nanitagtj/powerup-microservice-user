@@ -20,16 +20,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     IUserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String documentID) throws UsernameNotFoundException {
-        UserEntity usuario = userRepository.findByDniNumber(documentID).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
+        UserEntity user = userRepository.findByMail(mail).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        if (usuario.getRole() == null) {
-            throw new UsernameNotFoundException("User not found with documentID: " + documentID);
+        if (user.getRole() == null) {
+            throw new UsernameNotFoundException("User not found");
         }
 
         List<RoleEntity> roles = new ArrayList<>();
-        roles.add(usuario.getRole());
+        roles.add(user.getRole());
 
-        return PrincipalUser.build(usuario, roles);
+        return PrincipalUser.build(user, roles);
     }
 }
