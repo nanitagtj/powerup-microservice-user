@@ -9,15 +9,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Past;
+
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
-import java.util.Optional;
+
 
 @Entity
 @Table(name = "users")
@@ -46,7 +45,7 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "id_role")
+    @JoinColumn(name = "id_role", referencedColumnName = "id")
     private RoleEntity role;
     @Column(nullable = false)
     private LocalDate birthdate;

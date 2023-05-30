@@ -5,6 +5,7 @@ import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.Use
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.UserResponseDto;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",
@@ -13,6 +14,6 @@ import org.mapstruct.ReportingPolicy;
 public interface IUserRequestMapper {
     User toUser(UserRequestDto userRequestDto);
     User toUserClient(UserClientRequestDto userClientRequestDto);
-
+    @Mapping(target = "idRole", source = "role.id")
     UserResponseDto toResponse(User user);
 }

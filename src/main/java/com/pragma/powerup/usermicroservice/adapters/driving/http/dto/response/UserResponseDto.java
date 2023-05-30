@@ -4,11 +4,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @AllArgsConstructor
 @Getter
+@Setter
 public class UserResponseDto {
     @NotNull
     private Long id;
@@ -26,5 +28,5 @@ public class UserResponseDto {
     @NotNull
     private Long idRole;
     @NotNull
-    private LocalDate birthDate;
+    private LocalDate birthdate;
 }

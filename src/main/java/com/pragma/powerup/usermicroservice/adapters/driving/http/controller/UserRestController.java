@@ -85,6 +85,7 @@ public class UserRestController {
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
     @GetMapping("/find/{id}")
     public UserResponseDto getUserById(@PathVariable @Validated Long id) {
+
         return userHandler.getUserById(id);
     }
 }

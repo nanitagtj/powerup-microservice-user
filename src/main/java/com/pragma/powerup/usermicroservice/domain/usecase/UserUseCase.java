@@ -2,7 +2,6 @@ package com.pragma.powerup.usermicroservice.domain.usecase;
 
 import com.pragma.powerup.usermicroservice.configuration.Constants;
 import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
-import com.pragma.powerup.usermicroservice.domain.exceptions.BadRequestException;
 import com.pragma.powerup.usermicroservice.domain.model.Role;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
@@ -30,11 +29,11 @@ public class UserUseCase implements IUserServicePort {
         createUserWithRole(client, Constants.CLIENT_ROLE_ID);
     }
 
-    private void createUserWithRole(User user, Long roleId){
-        if (roleId != Constants.CLIENT_ROLE_ID){
+    private void createUserWithRole(User user, Long idRole){
+        if (idRole != Constants.CLIENT_ROLE_ID){
             UserValidations.validateAge(user.getBirthdate());
         }
-        Role role = rolePersistencePort.getRoleById(roleId);
+        Role role = rolePersistencePort.getRoleById(idRole);
         user.setRole(role);
         userPersistencePort.saveUser(user);
     }
