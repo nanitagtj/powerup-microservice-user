@@ -4,6 +4,12 @@ import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.Use
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.UserResponseDto;
 
 public interface IUserHandler {
-    void saveUser(UserRequestDto personRequestDto);
     UserResponseDto getUserById(Long id);
+
+    void createOwner(UserRequestDto userRequestDto);
+
+    void createEmployee(UserRequestDto userRequestDto);
+
+    void createAdmin(UserRequestDto userRequestDto);
+
 }

@@ -17,10 +17,17 @@ public class UserHandlerImpl implements IUserHandler {
     private final IUserRequestMapper userResponseMapper;
 
     @Override
-    public void saveUser(UserRequestDto userRequestDto) {
-        userServicePort.saveUser(userRequestMapper.toUser(userRequestDto));
+    public void createAdmin(UserRequestDto userRequestDto) {
+        userServicePort.createAdmin(userRequestMapper.toUser(userRequestDto));
     }
-
+    @Override
+    public void createOwner(UserRequestDto userRequestDto) {
+        userServicePort.createOwner(userRequestMapper.toUser(userRequestDto));
+    }
+    @Override
+    public void createEmployee(UserRequestDto userRequestDto) {
+        userServicePort.createEmployee(userRequestMapper.toUser(userRequestDto));
+    }
     @Override
     public UserResponseDto getUserById(Long id) {
         User user = userServicePort.getUserById(id);

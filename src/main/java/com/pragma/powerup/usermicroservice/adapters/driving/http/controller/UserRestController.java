@@ -26,15 +26,40 @@ import java.util.Map;
 public class UserRestController {
     private final IUserHandler userHandler;
 
-    @Operation(summary = "Add a new user",
+    @Operation(summary = "Add a new admin",
             responses = {
-                @ApiResponse(responseCode = "201", description = "User created",
-                        content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Map"))),
-                @ApiResponse(responseCode = "409", description = "User already exists",
-                        content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
-    @PostMapping("/create")
-    public ResponseEntity<Map<String, String>> saveUser(@Validated @RequestBody UserRequestDto userRequestDto) {
-        userHandler.saveUser(userRequestDto);
+                    @ApiResponse(responseCode = "201", description = "User created",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Map"))),
+                    @ApiResponse(responseCode = "409", description = "User already exists",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
+    @PostMapping("/admin")
+    public ResponseEntity<Map<String, String>> createAdmin(@Validated @RequestBody UserRequestDto userRequestDto) {
+        userHandler.createAdmin(userRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.USER_CREATED_MESSAGE));
+    }
+    @Operation(summary = "Add a new owner",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "User created",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Map"))),
+                    @ApiResponse(responseCode = "409", description = "User already exists",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
+    @PostMapping("/owner")
+    public ResponseEntity<Map<String, String>> createOwner(@Validated @RequestBody UserRequestDto userRequestDto) {
+        userHandler.createOwner(userRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.USER_CREATED_MESSAGE));
+    }
+
+    @Operation(summary = "Add a new employee",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "User created",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Map"))),
+                    @ApiResponse(responseCode = "409", description = "User already exists",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
+    @PostMapping("/employee")
+    public ResponseEntity<Map<String, String>> createEmployee(@Validated @RequestBody UserRequestDto userRequestDto) {
+        userHandler.createEmployee(userRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.USER_CREATED_MESSAGE));
     }

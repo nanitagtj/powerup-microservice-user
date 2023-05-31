@@ -26,22 +26,27 @@ public class BeanConfiguration {
     private final IRoleEntityMapper roleEntityMapper;
     private final IUserEntityMapper userEntityMapper;
     private final PasswordEncoder passwordEncoder;
+
     @Bean
     public IRoleServicePort roleServicePort() {
         return new RoleUseCase(rolePersistencePort());
     }
+
     @Bean
     public IRolePersistencePort rolePersistencePort() {
         return new RoleMysqlAdapter(roleRepository, roleEntityMapper);
     }
+
     @Bean
     public IUserPersistencePort userPersistencePort() {
         return new UserMysqlAdapter(userRepository, userEntityMapper, passwordEncoder);
     }
+
     @Bean
     public IUserServicePort userServicePort() {
-        return new UserUseCase(userPersistencePort(),rolePersistencePort());
+        return new UserUseCase(userPersistencePort(), rolePersistencePort());
     }
+
     @Bean
     public LocalValidatorFactoryBean validatorFactoryBean() {
         return new LocalValidatorFactoryBean();
