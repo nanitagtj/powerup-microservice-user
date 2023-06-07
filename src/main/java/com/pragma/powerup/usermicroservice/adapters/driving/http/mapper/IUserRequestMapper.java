@@ -14,6 +14,5 @@ import org.mapstruct.ReportingPolicy;
 public interface IUserRequestMapper {
     User toUser(UserRequestDto userRequestDto);
     User toUserClient(UserClientRequestDto userClientRequestDto);
-    @Mapping(target = "idRole", source = "role.id")
-    UserResponseDto toResponse(User user);
+    UserRequestDto toUserRequestDto(User user);
 }

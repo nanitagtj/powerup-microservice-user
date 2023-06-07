@@ -5,6 +5,7 @@ import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.Use
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.UserResponseDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IUserHandler;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.IUserRequestMapper;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.IUserResponseMapper;
 import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,12 @@ import org.springframework.stereotype.Service;
 public class UserHandlerImpl implements IUserHandler {
     private final IUserServicePort userServicePort;
     private final IUserRequestMapper userRequestMapper;
-    private final IUserRequestMapper userResponseMapper;
+    private final IUserResponseMapper userResponseMapper;
 
     @Override
     public UserResponseDto getUserById(Long id) {
         User user = userServicePort.getUserById(id);
-        return userResponseMapper.toResponse(user);
+        return userResponseMapper.userToUSerResponse(user);
     }
     @Override
     public void createAdmin(UserRequestDto userRequestDto) {
