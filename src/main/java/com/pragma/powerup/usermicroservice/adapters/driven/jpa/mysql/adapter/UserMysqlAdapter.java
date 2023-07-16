@@ -9,9 +9,14 @@ import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.repositorie
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class UserMysqlAdapter implements IUserPersistencePort {
@@ -51,5 +56,15 @@ public class UserMysqlAdapter implements IUserPersistencePort {
     public User deleteUser(User user) {
         userRepository.deleteById(user.getId());
         return user;
+    }
+
+    @Override
+    public List<User> getUsers(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<UserEntity> userPage = userRepository.findAll(pageable);
+        List<UserEntity> userEntities = userPage.getContent();
+        return userEntities.stream()
+                .map(userEntityMapper::userEntityToUser)
+                .collect(Collectors.toList());
     }
 }

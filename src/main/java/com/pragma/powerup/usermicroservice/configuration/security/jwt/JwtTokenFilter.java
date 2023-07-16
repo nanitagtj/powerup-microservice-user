@@ -22,6 +22,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 
+import javax.naming.AuthenticationException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
@@ -84,6 +85,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 }
             }
 
+            if (isGetUserRequest(req)) {
+                if (!userRole.equalsIgnoreCase(Constants.ROLE_ADMIN_NAME) && !userRole.equalsIgnoreCase(Constants.ROLE_OWNER_NAME)) {
+                    throw new UnauthorizedException();
+                }
+            } else {
+
+            }
             UserDetails userDetails = userDetailsService.loadUserByUsername(mail);
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null,
                     userDetails.getAuthorities());
@@ -119,6 +127,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         return request.getMethod().equalsIgnoreCase("PUT")
                 && request.getRequestURI().contains("/update/{userId}");
     }
+    private boolean isGetUserRequest(HttpServletRequest request) {
+        return request.getMethod().equalsIgnoreCase("GET")
+                && request.getRequestURI().contains("/all");
+    }
+
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String currentRoute = request.getServletPath();

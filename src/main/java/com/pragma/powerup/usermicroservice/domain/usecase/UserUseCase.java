@@ -11,6 +11,8 @@ import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 import com.pragma.powerup.usermicroservice.domain.validations.UserValidations;
 
+import java.util.List;
+
 public class UserUseCase implements IUserServicePort {
     private final IUserPersistencePort userPersistencePort;
     private final IRolePersistencePort rolePersistencePort;
@@ -82,5 +84,10 @@ public class UserUseCase implements IUserServicePort {
         userPersistencePort.saveUser(user);
 
         return user;
+    }
+
+    @Override
+    public List<User> getUsers(int page, int pageSize) {
+        return userPersistencePort.getUsers(page, pageSize);
     }
 }

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Struct;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +41,11 @@ public class UserHandlerImpl implements IUserHandler {
     public UserResponseDto updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto, String userType) {
         User user = userServicePort.updateUser(userRequestMapper.toUserId(userId).getId(), userUpdateRequestDto);
         return userResponseMapper.userToUSerResponse(user);
+    }
+
+    @Override
+    public List<UserResponseDto> getUsers(int page, int pageSize) {
+        List<User> users = userServicePort.getUsers(page, pageSize);
+        return userResponseMapper.usersToUserResponse(users);
     }
 }

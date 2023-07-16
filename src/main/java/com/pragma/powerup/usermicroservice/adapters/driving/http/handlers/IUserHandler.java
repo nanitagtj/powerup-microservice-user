@@ -4,6 +4,8 @@ import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.Use
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.UserUpdateRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.UserResponseDto;
 
+import java.util.List;
+
 public interface IUserHandler {
     UserResponseDto getUserById(Long id);
 
@@ -12,4 +14,5 @@ public interface IUserHandler {
     UserResponseDto deleteUser(Long userId, String userType);
 
     UserResponseDto updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto, String userType);
+    List<UserResponseDto> getUsers(int page, int pageSize);
 }

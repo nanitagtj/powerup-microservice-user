@@ -6,7 +6,6 @@ import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.Ap
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.UserResponseDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IUserHandler;
 import com.pragma.powerup.usermicroservice.configuration.Constants;
-import com.pragma.powerup.usermicroservice.domain.model.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,6 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -70,8 +71,16 @@ public class UserRestController {
         return ResponseEntity.ok(response);
     }
 
-
-
+    @Operation(summary = "Get all users (paginated)",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "List of users",
+                            content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserResponseDto.class))))
+            })
+    @GetMapping("/all")
+    public ResponseEntity<List<UserResponseDto>> getUsers(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+        List<UserResponseDto> users = userHandler.getUsers(page, pageSize);
+        return ResponseEntity.ok(users);
+    }
     @Operation(summary = "Get user by id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "user returned",
