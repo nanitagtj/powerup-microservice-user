@@ -1,17 +1,15 @@
 package com.pragma.powerup.usermicroservice.adapters.driving.http.handlers;
 
-import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.UserClientRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.UserRequestDto;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.UserUpdateRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.UserResponseDto;
 
 public interface IUserHandler {
     UserResponseDto getUserById(Long id);
 
-    void createOwner(UserRequestDto userRequestDto);
+    UserResponseDto createUser(UserRequestDto userRequestDto, String userType);
 
-    void createEmployee(UserRequestDto userRequestDto);
+    UserResponseDto deleteUser(Long userId, String userType);
 
-    void createAdmin(UserRequestDto userRequestDto);
-
-    void createClient(UserClientRequestDto userClientRequestDto);
+    UserResponseDto updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto, String userType);
 }

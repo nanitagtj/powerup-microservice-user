@@ -20,22 +20,36 @@ public class UserMysqlAdapter implements IUserPersistencePort {
     private final PasswordEncoder passwordEncoder;
     @Override
     public void saveUser(User user) {
-        if (userRepository.findByDniNumber(user.getDniNumber()).isPresent()) {
-            throw new UserAlreadyExistsException();
-        }
+        if (!isUpdatingData(user)) {
+            if (userRepository.findByDniNumber(user.getDniNumber()).isPresent()) {
+                throw new UserAlreadyExistsException();
+            }
 
-        if (userRepository.existsByMail(user.getMail())){
-            throw new MailAlreadyExistsException();
+            if (userRepository.existsByMail(user.getMail())){
+                throw new MailAlreadyExistsException();
+            }
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(userEntityMapper.toEntity(user));
+        UserEntity savedUserEntity = userRepository.save(userEntityMapper.toEntity(user));
+        User savedUser = userEntityMapper.userEntityToUser(savedUserEntity);
+        savedUser.setId(savedUserEntity.getId());
+        user.setId(savedUser.getId());
     }
 
+    private boolean isUpdatingData(User user) {
+        return user.getId() != null;
+    }
     @Override
     public User getUserById(Long id) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
         UserEntity userEntity = userEntityOptional.orElseThrow(NoDataFoundException::new);
         return userEntityMapper.userEntityToUser(userEntity);
+    }
+
+    @Override
+    public User deleteUser(User user) {
+        userRepository.deleteById(user.getId());
+        return user;
     }
 }

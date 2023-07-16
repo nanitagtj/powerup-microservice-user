@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,21 +29,18 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, length = 125)
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Provide a Name, not a number")
+    @NotBlank
     private String name;
-    @Column(nullable = false, length = 125)
+    @NotBlank
     private String surname;
     @Email
-    @Column(nullable = false, length = 125)
+    @NotBlank
     private String mail;
-    @Column(nullable = false, length = 13)
-    @Pattern(regexp = "^\\+?[0-9]{12}$")
+    @NotBlank
     private String phone;
-    @Column(unique = true, nullable = false, length = 20)
-    @Pattern(regexp = "^[0-9]+$")
+    @NotBlank
     private String dniNumber;
-    @Column(nullable = false)
+    @NotBlank
     private String password;
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_role", referencedColumnName = "id")

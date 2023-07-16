@@ -12,7 +12,9 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IUserRequestMapper {
+    @Mapping(target = "id", ignore = true)
     User toUser(UserRequestDto userRequestDto);
-    User toUserClient(UserClientRequestDto userClientRequestDto);
     UserRequestDto toUserRequestDto(User user);
+    @Mapping(target = "id", source = "userId")
+    User toUserId(Long userId);
 }

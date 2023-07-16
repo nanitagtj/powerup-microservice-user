@@ -1,7 +1,10 @@
 package com.pragma.powerup.usermicroservice.domain.usecase;
 
+import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.exceptions.UserNotFoundException;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.UserUpdateRequestDto;
 import com.pragma.powerup.usermicroservice.configuration.Constants;
 import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
+import com.pragma.powerup.usermicroservice.domain.exceptions.BadRequestException;
 import com.pragma.powerup.usermicroservice.domain.model.Role;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
@@ -16,29 +19,68 @@ public class UserUseCase implements IUserServicePort {
         this.userPersistencePort = userPersistencePort;
         this.rolePersistencePort = rolePersistencePort;
     }
-    public void createAdmin(User admin) {
-        createUserWithRole(admin, Constants.ADMIN_ROLE_ID);
-    }
-    public void createOwner(User owner) {
-        createUserWithRole(owner, Constants.OWNER_ROLE_ID);
-    }
-    public void createEmployee(User employee) {
-        createUserWithRole(employee, Constants.EMPLOYEE_ROLE_ID);
-    }
-    public void createClient(User client) {
-        createUserWithRole(client, Constants.CLIENT_ROLE_ID);
-    }
+    public User createUser(User user, String userType) {
+        Role role = getRoleForUserType(userType);
+        user.setRole(role);
 
-    private void createUserWithRole(User user, Long idRole){
-        if (idRole != Constants.CLIENT_ROLE_ID){
+        if (role.getId() != Constants.CLIENT_ROLE_ID) {
             UserValidations.validateAge(user.getBirthdate());
         }
-        Role role = rolePersistencePort.getRoleById(idRole);
-        user.setRole(role);
+
+        UserValidations.validateName(user.getName());
+        UserValidations.validateEmail((user.getMail()));
+        UserValidations.validatePhoneNumber(user.getPhone());
+        UserValidations.validateDni(user.getDniNumber());
+        UserValidations.validatePassword(user.getPassword());
+        UserValidations.validateDateInPast(user.getBirthdate());
         userPersistencePort.saveUser(user);
+
+        return user;
     }
+    private Role getRoleForUserType(String userType) {
+        if (Constants.ADMIN_NAME.equalsIgnoreCase(userType)) {
+            return new Role(Constants.ADMIN_ROLE_ID, Constants.ADMIN_NAME, Constants.ADMIN_DESCRIPTION);
+        } else if (Constants.OWNER_NAME.equalsIgnoreCase(userType)) {
+            return new Role(Constants.OWNER_ROLE_ID, Constants.OWNER_NAME, Constants.OWNER_DESCRIPTION);
+        } else if (Constants.EMPLOYEE_NAME.equalsIgnoreCase(userType)) {
+            return new Role(Constants.EMPLOYEE_ROLE_ID, Constants.EMPLOYEE_NAME, Constants.EMPLOYEE_DESCRIPTION);
+        } else if (Constants.CLIENT_NAME.equalsIgnoreCase(userType)) {
+            return new Role(Constants.CLIENT_ROLE_ID, Constants.CLIENT_NAME, Constants.CLIENT_DESCRIPTION);
+        } else {
+            throw new BadRequestException(Constants.INVALID_DESCRIPTION + userType);
+        }
+    }
+
     @Override
     public User getUserById(Long id) {
         return userPersistencePort.getUserById(id);
+    }
+
+    @Override
+    public User deleteUser(Long userId) {
+        User user = userPersistencePort.getUserById(userId);
+        if (user != null) {
+            userPersistencePort.deleteUser(user);
+        }
+        return user;
+    }
+
+    @Override
+    public User updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto) {
+        User user = userPersistencePort.getUserById(userId);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+
+        UserValidations.validateEmail(userUpdateRequestDto.getMail());
+        UserValidations.validatePhoneNumber(userUpdateRequestDto.getPhone());
+
+        user.setMail(userUpdateRequestDto.getMail());
+        user.setPhone(userUpdateRequestDto.getPhone());
+
+
+        userPersistencePort.saveUser(user);
+
+        return user;
     }
 }
