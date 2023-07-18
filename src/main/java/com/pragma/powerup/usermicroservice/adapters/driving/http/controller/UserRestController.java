@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +35,7 @@ public class UserRestController {
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))
             })
     @PostMapping("/create")
-    public ResponseEntity<ApiResponseDto<UserResponseDto>> createUser(@Validated @RequestBody UserRequestDto userRequestDto, String userType, HttpServletRequest request) {
+    public ResponseEntity<ApiResponseDto<UserResponseDto>> createUser(@Validated @RequestBody UserRequestDto userRequestDto, String userType) {
         UserResponseDto userResponseDto = userHandler.createUser(userRequestDto, userType);
         ApiResponseDto<UserResponseDto> response = new ApiResponseDto<>();
         response.setSuccess(true);
